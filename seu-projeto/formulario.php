@@ -1,23 +1,5 @@
 <?php
-
-    if(isset($_POST['submit']))
-    {
-        // print_r('Nome: ' . $_POST['nome']);
-        // print_r('<br>');
-        // print_r('Email: ' . $_POST['email']);
-        // print_r('<br>');
-        // print_r('Telefone: ' . $_POST['telefone']);
-        // print_r('<br>');
-        // print_r('Sexo: ' . $_POST['genero']);
-        // print_r('<br>');
-        // print_r('Data de nascimento: ' . $_POST['data_nascimento']);
-        // print_r('<br>');
-        // print_r('Cidade: ' . $_POST['cidade']);
-        // print_r('<br>');
-        // print_r('Estado: ' . $_POST['estado']);
-        // print_r('<br>');
-        // print_r('Endereço: ' . $_POST['endereco']);
-
+    if(isset($_POST['submit'])){
         include_once('config.php');
 
         $nome = $_POST['nome'];
@@ -30,14 +12,20 @@
         $estado = $_POST['estado'];
         $endereco = $_POST['endereco'];
 
-        $result = mysqli_query($conexao, "INSERT INTO usuarios(nome_aluno,senha,email,telefone_aluno,sexo_aluno,data_nasc_aluno,cidade_aluno,estado_aluno,endereco_aluno) 
-        VALUES ('$nome','$senha','$email','$telefone','$sexo','$data_nasc','$cidade','$estado','$endereco')");
+        // Verificar se o email já existe no banco de dados
+        $email_check = mysqli_query($conexao, "SELECT * FROM usuarios WHERE email = '$email'");
+        if(mysqli_num_rows($email_check) > 0){
+            $email_error = "Este email já está cadastrado. Por favor, use um email diferente.";
+        } else {
+            // Se o email não existe, inserir os dados no banco de dados
+            $result = mysqli_query($conexao, "INSERT INTO usuarios(nome_aluno,senha,email,telefone_aluno,sexo_aluno,data_nasc_aluno,cidade_aluno,estado_aluno,endereco_aluno) 
+            VALUES ('$nome','$senha','$email','$telefone','$sexo','$data_nasc','$cidade','$estado','$endereco')");
 
-        header('Location: index.php');
+            // Redirecionar para a página inicial
+            header('Location: index.php');
+        }
     }
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -118,11 +106,30 @@
         #submit:hover{
             background-image: linear-gradient(to right,rgb(0, 80, 172), rgb(80, 19, 195));
         }
+        .error{
+            color: red;
+            font-size: 12px;
+        }
     </style>
+    <script>
+        function validatePasswords() {
+            var senha = document.getElementById("senha").value;
+            var confirmSenha = document.getElementById("confirmar_senha").value;
+            var errorMessage = document.getElementById("error-message");
+
+            if (senha !== confirmSenha) {
+                errorMessage.style.display = "block";
+                return false;
+            } else {
+                errorMessage.style.display = "none";
+                return true;
+            }
+        }
+    </script>
 </head>
 <body>
     <div class="box">
-        <form action="formulario.php" method="POST">
+        <form action="formulario.php" method="POST" onsubmit="return validatePasswords()">
             <fieldset>
                 <legend><b>Fórmulário de matricula</b></legend>
                 <br>
@@ -136,10 +143,21 @@
                     <label for="senha" class="labelInput">Senha</label>
                 </div>
                 <br><br>
+                <!-- Confirmar Senha -->
+                <div class="inputBox">
+                    <input type="password" name="confirmar_senha" id="confirmar_senha" class="inputUser" required>
+                    <label for="confirmar_senha" class="labelInput">Confirmar Senha</label>
+                </div>
+                <p id="error-message" class="error" style="display:none;">As senhas não coincidem. Tente novamente.</p>
+                <br><br>
                 <div class="inputBox">
                     <input type="text" name="email" id="email" class="inputUser" required>
                     <label for="email" class="labelInput">Email</label>
                 </div>
+                <!-- Verificação de Email já cadastrado -->
+                <?php if(isset($email_error)) { ?>
+                    <p class="error"><?php echo $email_error; ?></p>
+                <?php } ?>
                 <br><br>
                 <div class="inputBox">
                     <input type="tel" name="telefone" id="telefone" class="inputUser" required>

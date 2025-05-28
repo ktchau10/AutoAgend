@@ -1,46 +1,45 @@
-AutoAgend - Sistema de Agendamento de Aulas
-Este repositório contém o código-fonte do AutoAgend, um sistema de agendamento de aulas desenvolvido para facilitar o gerenciamento de aulas em autoescolas. O sistema permite que as aulas sejam facilmente gerenciadas e visualizadas, proporcionando uma experiência simples para administradores e alunos.
+# AutoAgend - Sistema de Agendamento de Aulas
 
-Requisitos
-Para rodar o AutoAgend localmente, é necessário ter o XAMPP instalado em sua máquina, que inclui o Apache (servidor web) e o MySQL (sistema de banco de dados).
+Este repositório contém o código-fonte do **AutoAgend**, um sistema de agendamento de aulas desenvolvido para facilitar o gerenciamento de aulas em autoescolas. O sistema permite que as aulas sejam gerenciadas e visualizadas por administradores e alunos.
 
-Além disso, o sistema foi desenvolvido utilizando PHP, HTML e CSS.
+## Tecnologias Utilizadas
+- **PHP**
+- **MySQL**
+- **HTML**
+- **CSS**
+- **XAMPP** (para ambiente local de desenvolvimento)
 
-Como Rodar o Projeto Localmente
-Instalar o XAMPP:
-Baixe e instale o XAMPP.
+## Como Rodar o Projeto Localmente
 
-Colocar o Projeto na Pasta htdocs:
-Após instalar o XAMPP, mova a pasta seu-projeto (contendo o código-fonte) para dentro da pasta htdocs do XAMPP. O caminho será algo como:
-C:\xampp\htdocs\seu-projeto\
-Configuração do Banco de Dados:
+1. **Instalar o XAMPP:**
+   - Faça o download do [XAMPP](https://www.apachefriends.org/index.html) e instale em sua máquina.
+   - Após a instalação, abra o painel de controle do XAMPP e inicie os serviços **Apache** e **MySQL**.
 
-Abra o phpMyAdmin no XAMPP (geralmente acessível em http://localhost/phpmyadmin).
+2. **Configurar o Banco de Dados:**
+   - Navegue até a pasta `htdocs` no diretório de instalação do XAMPP (ex: `C:\xampp\htdocs`).
+   - Crie uma nova pasta chamada `seu-projeto`.
+   - Dentro dessa pasta, coloque todos os arquivos do repositório.
+   - No painel do XAMPP, clique em **phpMyAdmin** para abrir o banco de dados MySQL.
+   - Crie um novo banco de dados chamado `autoagend`.
+   - Importe o arquivo SQL `sql/autoagend.sql` para criar a estrutura do banco de dados.
+
+3. **Configurar o arquivo de conexão com o banco de dados:**
+   - O arquivo config.php já está configurado para se conectar a um banco de dados local com as seguintes credenciais:
+     ```php
+      $dbhost = 'LocalHost';
+      $dbusername = 'root';
+      $dbPassword = '';
+      $dbName = 'autoagend';
+     ```
+
+4. **Rodar o Projeto:**
+   - Com o Apache e MySQL em execução, acesse o navegador e digite o seguinte URL:
+     ```
+     http://localhost/seu-projeto/home.php
+     ```
 
 Crie um banco de dados chamado autoagend.
-
 Execute o script autoagend.sql para criar as tabelas necessárias e inserir dados iniciais.
-
-
-Configuração do Banco de Dados no Código:
-O arquivo config.php já está configurado para se conectar a um banco de dados local com as seguintes credenciais:
-
-php
-Copiar
-$dbhost = 'LocalHost';
-$dbusername = 'root';
-$dbPassword = '';
-$dbName = 'autoagend';
-
-
-Iniciar o Apache e MySQL:
-Abra o painel de controle do XAMPP e inicie os módulos Apache e MySQL.
-
-Acessar o Sistema:
-Agora, você pode acessar o sistema no navegador utilizando o seguinte endereço:
-
-Copiar
-http://localhost/seu-projeto
 
 
 A partir daí, você poderá acessar o sistema e testar as funcionalidades.
